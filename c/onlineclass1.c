@@ -4,79 +4,68 @@
 #define LENGTH 15
 
 typedef struct {
-	int x;
-	char n[LENGTH];
+    int x;
+    char n[LENGTH];
 } csc240_t;
 
-int main() {
-	int num = 0;
-	int array[10] = {1,2,3,4,5,6,7,8,9,10};
-	char c = 'A';
+int main(void) {
 
-	char str1[] = "CSC240";
+    /* Declare some variables */
+    int num = 0;
+    int count;
+    int array[10] = {1,2,3,4,5,6,7,8,9,10};
+    char c = 'A';
+    char str1[] = "CSC240";
 
-	int * iPtr;
-	char * cPtr;
+    csc240_t struct1 = {40, "Struct"};
+    csc240_t struct2;
+    
+    printf("Hello, World!\n");
 
-	csc240_t structVar = {40, "Struct"};
-	csc240_t * structPtr = &structVar;
+    /* Reading user input */
+    printf("Enter a number: ");
+    scanf("%d", &count);
+    for (int ii=0;ii<count;ii++) {
+        printf("%d ", ii+1);
+    }
+    printf("\n");
+    printf("\n");
 
-	for(int ii=0;ii<10;ii++) {
-		printf("Number %d = %d\n", ii, array[ii]);
-		num += ii;
-	}
-	printf("\n");
+    /* for-loop */
+    for (int ii=0;ii<10;ii++) {
+        printf("array[%d] = %d\n", ii, array[ii]);
+        num += ii;
+    }
+    printf("\n");
 
-	printf("num=%d %o %x %X\n", num, num, num, num);
-	printf("\n");
+    /* printing a number as decimal, octal, & hexadecimal */
+    printf("num = %d %o %x %X\n", num, num, num, num);
+    printf("\n");
 
-	printf("char = %c  %d %X\n", c, c, c);
-	printf("char+10 = %c %d\n", c+10, c+10);
-	printf("'I' + '!' = %c %d\n", 'I' + '!', 'I' + '!');
-	for(int ii=0;ii<=10;ii++) {
-		printf("%c ", c + ii);
-	}
-	printf("\n\n");
+    /* printing a character as a character, decimal, & hex */
+    printf("c = %c %d %X\n", c, c, c);
+    printf("c+10 = %c %d %X\n", c+10, c+10, c+10);
+    printf("'I' + '!' = %c %d %X\n", 'I'+'!', 'I'+'!', 'I'+'!'); 
+    printf("\n");
 
-	/* Printing a string */
-	printf("As a character: %c\n", str1[0]);
-	printf("As a string: %s\n", str1);
+    /* printing a string */
+    printf("String as a string: %s\n", str1);
+    printf("Character from a string: %c\n", str1[0]);
+    printf("Character from a string: %c\n", str1[3]);
 
-	/* Pointers */
-	iPtr = &num;
-	printf("iPtr=%p  address=%p   *iPtr=%d\n", (void*) iPtr, (void*) &iPtr, *iPtr);
-	printf("\n");
+    for(int ii=0;ii<strlen(str1);ii++) {
+        printf("%c ", str1[ii]);
+    }
+    printf("\n");
+    printf("\n");
 
-	/* Use a char pointer to go through a string */
-	cPtr = str1;
-	printf("Print string using a pointer: ");
-	while(*cPtr != '\0') {
-		putchar(*cPtr);
-		cPtr ++;
-	}
-	printf("\n\n");
-	
+    /* Working with structs */
+    struct2.x = 20;
+    strncpy(struct2.n, "Program", LENGTH);
 
-	/* Working with structs */
-	printf("Structure: %d %s\n", structVar.x, structVar.n);
-	printf("Structure(using pointer): %d %s\n", structPtr->x, structPtr->n);
+    printf("struct1: x=%d n=%s\n", struct1.x, struct1.n);
+    printf("struct2: x=%d n=%s\n", struct2.x, struct2.n);
 
-	printf("\nChanging a structure with a variable:\n");
-	structVar.x = 30;
-	/* structVar.n = "NewString"; */
-	strncpy(structVar.n, "NewString", LENGTH);
-	printf("structVar: %d %s\n", structVar.x, structVar.n);
 
-	printf("\nChanging a structure with a variable:\n");
-	structPtr->x = 75;
-	strncpy(structPtr->n, "PointerFun", LENGTH);
-	printf("structVar: %d %s\n", structVar.x, structVar.n);
-
-	cPtr = str1;
-	for (int ii=0;ii<40;ii++) {
-		printf("[%d] *cPtr=%c %d \n", ii, *cPtr, *cPtr);
-		cPtr ++;
-	}
-
-	return 0;
 }
+
