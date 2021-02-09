@@ -4,56 +4,49 @@
 #define LENGTH 15
 
 typedef struct {
-	int x;
-	char n[LENGTH];
+    int x;
+    char n[LENGTH];
 } csc240_t;
 
 int main() {
-
+    /* Variables */
     int num = 0;
-	char str1[] = "CSC240";
+    char str1[] = "CSC240";
+    csc240_t structVar = {40, "Struct"};
 
-	int * iPtr;
-	char * cPtr;
+    /* Pointer variables */
+    int * iPtr = &num;
+    char * cPtr = str1;
+    csc240_t * structPtr = &structVar;
 
-	csc240_t structVar = {40, "Struct"};
-	csc240_t * structPtr = &structVar;
+    /* Printing out pointers & addresses */
+    printf("iPtr=%p  address=%p  *iPtr=%d\n", (void *) iPtr, (void *) &iPtr, *iPtr);
+    printf("cPtr=%p  address=%p  *cPtr=%c\n", (void *) cPtr, (void *) &cPtr, *cPtr);
 
-	/* Pointers */
-	iPtr = &num;
-	printf("iPtr=%p  address=%p   *iPtr=%d\n", (void*) iPtr, (void*) &iPtr, *iPtr);
-	printf("\n");
+    /* Use char pointer to go through a string */
+    printf("Print string using a pointer: ");
+    while(*cPtr != '\0') {
+        putchar(*cPtr);
+        cPtr++;
+    }
+    printf("\n\n");
 
-	/* Use a char pointer to go through a string */
-	cPtr = str1;
-	printf("Print string using a pointer: ");
-	while(*cPtr != '\0') {
-		putchar(*cPtr);
-		cPtr ++;
-	}
-	printf("\n\n");
-	
+    /* Working with structs */
+    printf("structVar = %d %s address=%p\n", structVar.x ,structVar.n, (void*) &structVar);
+    printf("structPtr = %p  {%d %s} address=%p\n", (void *) structPtr, structPtr->x,
+                                                 structPtr->n, (void*)&structPtr);
+    
+    /* Changing a struct with a pointer */
+    structPtr->x = 75;
+    strncpy(structPtr->n, "PointerFun", LENGTH);
+    printf("After changes:\n");
+    printf("  structVar = %d %s address=%p\n", structVar.x ,structVar.n, (void*) &structVar);
+    printf("  structPtr = %p  {%d %s} address=%p\n", (void *) structPtr, structPtr->x,
+                                                 structPtr->n, (void*)&structPtr);
 
-	/* Working with structs */
-	printf("Structure: %d %s\n", structVar.x, structVar.n);
-	printf("Structure(using pointer): %d %s\n", structPtr->x, structPtr->n);
-
-	printf("\nChanging a structure with a variable:\n");
-	structVar.x = 30;
-	/* structVar.n = "NewString"; */
-	strncpy(structVar.n, "NewString", LENGTH);
-	printf("structVar: %d %s\n", structVar.x, structVar.n);
-
-	printf("\nChanging a structure with a variable:\n");
-	structPtr->x = 75;
-	strncpy(structPtr->n, "PointerFun", LENGTH);
-	printf("structVar: %d %s\n", structVar.x, structVar.n);
-
-	cPtr = str1;
-	for (int ii=0;ii<40;ii++) {
-		printf("[%d] *cPtr=%c %d \n", ii, *cPtr, *cPtr);
-		cPtr ++;
-	}
-
-	return 0;
+    cPtr = str1;
+    for (int ii=0;ii<10;ii++){
+        printf("%d: *cPtr='%c' %d\n", ii, *(cPtr+ii), *(cPtr+ii));
+    }
+    
 }
