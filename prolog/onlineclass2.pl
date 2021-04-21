@@ -40,3 +40,8 @@ increment([H|T], [H1 | TInc]) :- increment(T,TInc), H1 is H + 1.
 multiples_of_n([], _, []).
 multiples_of_n([H|T], N, [H|TMultiples]) :- 0 is H mod N, multiples_of_n(T,N,TMultiples).
 multiples_of_n([H|T], N, TMultiples) :- X is H mod N, X>0, multiples_of_n(T,N,TMultiples).
+
+% append two lists
+append([],L,L).
+append(L,[],L).
+append([Head|Tail], List, [Head | Appended]) :- append(Tail, List, Appended).
