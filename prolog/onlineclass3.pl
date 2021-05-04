@@ -3,11 +3,15 @@
 %   - replace lists with the atom list
 %   - remove everything else
 do_some_stuff([],[]) :- !.
-do_some_stuff([H|T],[H2|TResult]) :- number(H), !, H2 is H ** 2, do_some_stuff(T, TResult).
-do_some_stuff([ [_|_] | T ], [list | TResult]) :- !, do_some_stuff(T,TResult).
-do_some_stuff([_H | T], TResult) :- do_some_stuff(T,TResult).
+do_some_stuff([H|T], [H2|TResult]) :- number(H), !, H2 is H ** 2, do_some_stuff(T, TResult).
+do_some_stuff([[_|_]|T], [atom|TResult] ) :- !, do_some_stuff(T,TResult).
+do_some_stuff([_H|T], TResult) :- do_some_stuff(T, TResult).
 
-:- dynamic division/2.
+do_some_stuff_no_cut([],[]).
+do_some_stuff_no_cut([H|T], [H2|TResult]) :- number(H), H2 is H ** 2, do_some_stuff_no_cut(T, TResult).
+do_some_stuff_no_cut([[_|_]|T], [atom|TResult] ) :- do_some_stuff_no_cut(T,TResult).
+do_some_stuff_no_cut([_H|T], TResult) :- do_some_stuff_no_cut(T, TResult).
+
 division(nl_west, diamondbacks). 
 division(nl_west, giants). 
 division(nl_west, padres). 
@@ -17,23 +21,25 @@ division(al_west, angels).
 division(al_west, mariners). 
 division(al_west, as). 
 
-nl_west(Teams) :- findall(Team, division(nl_west, Team), Teams).
+nl_west(Teams) :- findall(Team, division(nl_west,Team), Teams).
+team(Division, Teams) :- findall(Team, division(Division, Team), Teams).
 mlb_teams(Teams) :- findall(Team, division(_, Team), Teams).
-mlb_divisions(Divisions) :- setof(Division, division(Division, _), Divisions).
+%mlb_divisions(Divisions) :- setof(Division, division(Division, _), Divisions).
 
 :- dynamic favorite_team/1.
 favorite_team(diamondbacks).
 change_team(NewFavorite) :- 
-	division(_, NewFavorite),
-	retractall(favorite_team(_)), 
-	asserta(favorite_team(NewFavorite)).
+     division(_,NewFavorite),
+     retractall(favorite_team(_)),
+     asserta(favorite_team(NewFavorite)).
 
-change_for_a_dollar(HalfDollars, Quarters, Dimes, Nickels, Pennies) :- 
+% Change for a dollar
+change_for_a_dollar(HalfDollars,Quarters,Dimes,Nickels,Pennies) :-
 	member(Nickels, [0, 1, 2, 3, 4, 5 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
 	member(Dimes, [0, 1, 2, 3, 4, 5 6, 7, 8, 9, 10]),
 	member(Quarters, [0, 1, 2, 3, 4]),
 	member(HalfDollars, [0, 1, 2]),
-	SubTotal is ( (HalfDollars * 50) + (Quarters * 25) + (Dimes * 10) + (Nickels * 5) ),
-	SubTotal =< 100,
-	Pennies is 100 - SubTotal.
+    SubTotal is ( (HalfDollars * 50) + (Quarters * 25) + (Dimes * 10) + (Nickels * 5) ),
+    SubTotal =< 100,
+    Pennies is 100 - SubTotal.
 
